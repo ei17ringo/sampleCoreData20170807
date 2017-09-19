@@ -17,7 +17,40 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        //CoreDataからデータを読み込む処理
+        read()
+        
+    }
+
+    //CoreDataに保存されているデータの読み込み処理（READ）
+    func read(){
+    
+        //AppDelegateを使う用意をしておく
+        let appD:AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        //エンティティを操作するためのオブジェクトを使用
+        let viewContext = appD.persistentContainer.viewContext
+        
+        //どのエンティティからデータを取得してくるか設定
+        let query:NSFetchRequest<ToDo> = ToDo.fetchRequest()
+        
+        //データ一括取得
+        do{
+            //保存されてるデータをすべて取得
+            let fetchResults = try viewContext.fetch(query)
+            
+            //一件ずつ表示
+            for result:AnyObject in fetchResults{
+                let title:String? = result.value(forKey:"title") as? String
+                let saveDate:Date? = result.value(forKey:"saveDate") as? Date
+
+                print("title:\(title!) saveDate:\(saveDate!)")
+            
+            }
+        }catch{
+        }
+        
     }
 
     //リターンキーが押された時（キーボードを閉じる）
@@ -51,6 +84,41 @@ class ViewController: UIViewController {
         }catch{
         
         }
+    }
+    
+    //全削除ボタンが押された時(DELETEに当たる処理)
+    @IBAction func tapDelete(_ sender: UIButton) {
+        
+        //AppDelegateを使う用意をしておく
+        let appD:AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        //エンティティを操作するためのオブジェクトを使用
+        let viewContext = appD.persistentContainer.viewContext
+        
+        //どのエンティティからデータを取得してくるか設定
+        let query:NSFetchRequest<ToDo> = ToDo.fetchRequest()
+        
+        
+        //データを一括取得
+        do{
+            let fetchRequests = try viewContext.fetch(query)
+            
+            for result:AnyObject in fetchRequests{
+                //取得したデータを指定し、削除
+                let record = result as! NSManagedObject
+                viewContext.delete(record)
+            }
+            
+            //削除した状態を保存
+            try viewContext.save()
+            
+        }catch{
+        
+        }
+        
+        
+        
+        
     }
     
     override func didReceiveMemoryWarning() {

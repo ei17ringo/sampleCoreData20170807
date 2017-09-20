@@ -59,11 +59,26 @@
                                 <rect key="frame" x="0.0" y="122" width="375" height="293"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" id="rdI-lb-X4c">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rdI-lb-X4c" id="tO9-0e-vfu">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="MCI-CJ-8kW"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="Pab-0z-fck"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <connections>
+                        <outlet property="myTableView" destination="0uj-ve-H4M" id="ycc-PZ-zxx"/>
                         <outlet property="todoTableView" destination="0uj-ve-H4M" id="VR6-hJ-5gs"/>
                         <outlet property="txtTitle" destination="xJP-nv-95W" id="r9Z-Dc-WUB"/>
                     </connections>

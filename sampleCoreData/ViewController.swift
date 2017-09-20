@@ -9,11 +9,15 @@
 import UIKit
 import CoreData
 
-class ViewController: UIViewController {
+class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
 
     @IBOutlet weak var txtTitle: UITextField!
     
     @IBOutlet weak var todoTableView: UITableView!
+    
+    @IBOutlet weak var myTableView: UITableView!
+    
+    var contentTitle:[String] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,6 +50,8 @@ class ViewController: UIViewController {
                 let saveDate:Date? = result.value(forKey:"saveDate") as? Date
 
                 print("title:\(title!) saveDate:\(saveDate!)")
+                
+                contentTitle.append(title as! String)
             
             }
         }catch{
@@ -84,6 +90,14 @@ class ViewController: UIViewController {
         }catch{
         
         }
+        
+        
+        //配列再取得
+        contentTitle = []
+        read()
+        
+        myTableView.reloadData()
+
     }
     
     //全削除ボタンが押された時(DELETEに当たる処理)
@@ -119,6 +133,19 @@ class ViewController: UIViewController {
         
         
         
+    }
+    
+    // MARK:TableView設定
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return contentTitle.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        
+        cell.textLabel?.text = contentTitle[indexPath.row]
+        return cell
     }
     
     override func didReceiveMemoryWarning() {
